@@ -145,7 +145,7 @@ async def dm_sender_loop():
                         )
                         tasks = result.scalars().all()
                         
-                        if not tasks:
+                        if not tasks or API_KEY is None:
                             await asyncio.sleep(1)
                             continue
                             
@@ -211,7 +211,7 @@ async def delivery_reconciler_loop():
                     )
                     tasks = result.scalars().all()
                     
-                    if not tasks:
+                    if not tasks or API_KEY is None:
                         await asyncio.sleep(5)
                         continue
                         
