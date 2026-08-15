@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkPlease Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <h1>Welcome back, Swarnadipta! 👋</h1>
+                <p>Monitor and automate your Instagram DM workflows</p>
+            </div>
+            <button class="refresh-btn" onclick="location.reload()">
+                <i class="fa-solid fa-rotate-right"></i> Refresh
+            </button>
+        </header>
+
+        <main style="display: flex; flex-direction: column; gap: 32px;">
+            <section class="dashboard">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-paper-plane"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-label">SENT</div>
+                            <div class="stat-value" id="stat-sent">0</div>
+                            <div class="stat-subtext">0% vs last 7 days</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-regular fa-clock"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-label">QUEUED</div>
+                            <div class="stat-value" id="stat-queued">0</div>
+                            <div class="stat-subtext">— vs last 7 days</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-xmark"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-label">FAILED</div>
+                            <div class="stat-value" id="stat-failed">0</div>
+                            <div class="stat-subtext">— vs last 7 days</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-shield"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-label">BLOCKED</div>
+                            <div class="stat-value" id="stat-blocked">0</div>
+                            <div class="stat-subtext">— vs last 7 days</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <div class="card">
+                    <div class="chart-header">
+                        <h2>System Throughput</h2>
+                        <select>
+                            <option>Last 7 days</option>
+                        </select>
+                    </div>
+                    <div style="position: relative; height: 250px; width: 100%;">
+                        <canvas id="throughputChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Configuration & Simulation</h2>
+                <div class="two-col-grid">
+                    <div class="card">
+                        <h3><i class="fa-solid fa-gear"></i> 1. API Setup</h3>
+                        <form id="setup-form">
+                            <div class="form-row">
+                                <div class="input-group" style="margin-bottom:0;">
+                                    <label>Name</label>
+                                    <input type="text" id="setup-name" placeholder="Your Name" required>
+                                </div>
+                                <div class="input-group" style="margin-bottom:0;">
+                                    <label>Email</label>
+                                    <input type="email" id="setup-email" placeholder="you@example.com" required>
+                                </div>
+                                <div class="input-group" style="margin-bottom:0;">
+                                    <label>Phone</label>
+                                    <input type="text" id="setup-phone" placeholder="+91XXXXXXXXXX" required>
+                                </div>
+                                <div class="input-group" style="margin-bottom:0;">
+                                    <label>LinkedIn URL</label>
+                                    <input type="url" id="setup-linkedin" placeholder="https://linkedin.com/in/you" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="primary-btn"><i class="fa-solid fa-key"></i> Get API Key</button>
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <h3><i class="fa-solid fa-paper-plane"></i> 2. Run Simulation</h3>
+                        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 12px;">Start the official 500-event mock API simulation directly from here.</p>
+                        <form id="simulate-form">
+                            <div class="input-group">
+                                <label>Your Public Webhook URL</label>
+                                <input type="url" id="sim-url" placeholder="https://your-app.com/webhook" required>
+                            </div>
+                            <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 12px; margin-top: -8px;">Make sure your tunnel is running!</p>
+                            <button type="submit" class="primary-btn"><i class="fa-solid fa-play"></i> Start Simulation (500 events)</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Rules Manager</h2>
+                <div class="two-col-grid">
+                    <div class="card">
+                        <h3><i class="fa-solid fa-plus-circle"></i> Create New Rule</h3>
+                        <form id="rule-form">
+                            <div class="input-group">
+                                <label>Trigger Keyword</label>
+                                <input type="text" id="keyword" placeholder="e.g. PRICE" required>
+                            </div>
+                            <div class="input-group">
+                                <label>DM Message</label>
+                                <textarea id="message" rows="2" placeholder="Hi! Here is the link you requested..." required></textarea>
+                            </div>
+                            <button type="submit" class="primary-btn"><i class="fa-solid fa-plus"></i> Add Rule</button>
+                        </form>
+                        
+                        <div id="activity-stream" class="terminal-log">
+                            <div class="log-entry info">[INFO] System Ready. Waiting for events...</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Active Rules</h3>
+                        <div id="rules-list" class="rules-list">
+                            <!-- Rules populated via JS -->
+                            <div class="loading">Loading rules...</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/static/app.js"></script>
+</body>
+</html>
