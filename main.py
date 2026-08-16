@@ -187,7 +187,7 @@ async def simulate(req: SimulateRequest):
             "webhook_url": req.webhook_url,
             "count": req.count,
             "duration_seconds": req.duration_seconds
-        })
+        }, headers={"X-API-Key": API_KEY})
         if res.status_code != 200:
             raise HTTPException(status_code=res.status_code, detail=res.text)
         return res.json()
